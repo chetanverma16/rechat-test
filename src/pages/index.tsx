@@ -86,6 +86,7 @@ const Home: NextPage = () => {
                 todos.map(({ title, description, badge, id }) => (
                   <Todo
                     key={id}
+                    id={id}
                     title={title}
                     description={description}
                     badge={badge}

@@ -1,12 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { TODOType } from "../@types";
-import Header from "../components/Header";
-import Layout from "../components/Layout";
+import { TODOType } from "../../@types";
+import Header from "../../components/Header";
+import Layout from "../../components/Layout";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Edit = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [badge, setBadge] = useState("Todo");
+
+  const getEditValues = (id: string) => {
+    fetch("/api/todos/todo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: parseInt(id) }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setTitle(data.title);
+        setDescription(data.description);
+        setBadge(data.badge);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    getEditValues(id);
+  }, []);
 
   const generateOptions = (badge: String) => {
     switch (badge) {
@@ -84,9 +112,11 @@ const Edit = () => {
           <button className="w-full h-12 m-2 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
             Done
           </button>
-          <button className="w-full h-12 m-2 rounded-md shadow-md bg-blue-100 text-black mt-5 transition-all duration-300 ease-out hover:bg-blue-200">
-            Cancel
-          </button>
+          <Link href="/">
+            <a className="w-full h-12 m-2 text-center flex items-center justify-center rounded-md shadow-md bg-blue-100 text-black mt-5 transition-all duration-300 ease-out hover:bg-blue-200">
+              Cancel
+            </a>
+          </Link>
         </div>
       </div>
     </Layout>
