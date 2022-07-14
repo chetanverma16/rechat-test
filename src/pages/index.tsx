@@ -5,6 +5,7 @@ import Todo from "../components/Todo";
 
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState([]);
@@ -55,51 +56,49 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-screen h-screen flex flex-col justify-center items-center bg-gray-50">
-        <div className="bg-gray-50 w-full max-w-lg h-screen flex flex-col items-center">
-          <Header location="Home" />
-          <div className="w-5/6 mt-10 flex flex-col items-start">
-            <h2 className="text-2xl">Add a new Task</h2>
-            <input
-              type="text"
-              className="w-full mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}></input>
-            <textarea
-              className="w-full h-32 mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}></textarea>
-            <button
-              disabled={creating}
-              onClick={createTask}
-              className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
-              {creating ? "Creating Task" : "+ ADD"}
-            </button>
-          </div>
-          <main className="mt-10 bg-blue-600 text-white w-full h-full rounded-t-3xl flex flex-col items-center overflow-hidden">
-            <h1 className="ml-10 mt-5 text-xl w-full">Tasks</h1>
-            {todos.length ? (
-              <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll">
-                {todos.length &&
-                  todos.map(({ title, description, badge, id }) => (
-                    <Todo
-                      key={id}
-                      title={title}
-                      description={description}
-                      badge={badge}
-                    />
-                  ))}
-              </div>
-            ) : (
-              <div className="w-1/2 h-full flex items-center justify-center text-center text-white text-2xl">
-                You have nothing to do. Go Get Some Sleep.
-              </div>
-            )}
-          </main>
+      <Layout>
+        <Header location="Home" />
+        <div className="w-5/6 mt-10 flex flex-col items-start">
+          <h2 className="text-2xl">Add a new Task</h2>
+          <input
+            type="text"
+            className="w-full mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}></input>
+          <textarea
+            className="w-full h-32 mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}></textarea>
+          <button
+            disabled={creating}
+            onClick={createTask}
+            className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
+            {creating ? "Creating Task" : "+ ADD"}
+          </button>
         </div>
-      </div>
+        <main className="mt-10 bg-blue-600 text-white w-full h-full rounded-t-3xl flex flex-col items-center overflow-hidden">
+          <h1 className="ml-10 mt-5 text-xl w-full">Tasks</h1>
+          {todos.length ? (
+            <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll">
+              {todos.length &&
+                todos.map(({ title, description, badge, id }) => (
+                  <Todo
+                    key={id}
+                    title={title}
+                    description={description}
+                    badge={badge}
+                  />
+                ))}
+            </div>
+          ) : (
+            <div className="w-1/2 h-full flex items-center justify-center text-center text-white text-2xl">
+              You have nothing to do. Go Get Some Sleep.
+            </div>
+          )}
+        </main>
+      </Layout>
     </>
   );
 };

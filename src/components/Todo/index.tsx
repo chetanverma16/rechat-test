@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { TODOType } from "../../@types";
 
@@ -15,12 +16,14 @@ const Todo = ({ title, description, badge }: todoProps) => {
         {description}
       </p>
       <div className="flex items-center justify-between">
-        <button className="px-6 py-2 mt-5 bg-blue-900 text-white rounded-xl">
+        <div className="px-6 py-2 mt-5 bg-blue-900 text-white rounded-xl">
           {badge}
-        </button>
-        <button className="hover:scale-105">
-          <img className="h-8 mt-5" src="/edit.svg"></img>
-        </button>
+        </div>
+        <Link href={"/edit"}>
+          <a className="transition-all duration-200 ease-out hover:scale-105 active:scale-100">
+            <img className="h-8 mt-5" src="/edit.svg"></img>
+          </a>
+        </Link>
       </div>
     </div>
   );
