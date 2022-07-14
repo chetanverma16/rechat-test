@@ -9,7 +9,7 @@ type todoProps = {
 
 const Todo = ({ title, description, badge }: todoProps) => {
   return (
-    <div className="bg-white m-2 p-4 h-48 rounded-xl border-2 flex flex-col text-black">
+    <div className="bg-white m-2 p-4 h-48 rounded-xl border-2 flex flex-col justify-between text-black">
       <h1 className="">{title}</h1>
       <p className="text-sm mt-2 opacity-60 max-h-16 overflow-hidden">
         {description}

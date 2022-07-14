@@ -3,11 +3,49 @@ import Head from "next/head";
 import { TODOType } from "../@types";
 import Todo from "../components/Todo";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Header from "../components/Header";
 
 const Home: NextPage = () => {
+  const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [creating, setCreating] = useState(false);
+
+  const createTask = () => {
+    if (title.length > 2 && description.length > 2) {
+      setCreating(true);
+      fetch("/api/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      })
+        .then((response) => response.json())
+        .then(() => {
+          setCreating(false);
+          setTitle("");
+          setDescription("");
+          getTodos();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
+  const getTodos = () => {
+    fetch("/api/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        setTodos(data.todos);
+      });
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   return (
     <>
@@ -17,11 +55,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-screen h-screen flex flex-col justify-center items-center p-4 bg-gray-50">
+      <div className="w-screen h-screen flex flex-col justify-center items-center bg-gray-50">
         <div className="bg-gray-50 w-full max-w-lg h-screen flex flex-col items-center">
-          <header className="h-16 w-full bg-blue-500 text-white flex items-center justify-center">
-            <h1 className="text-lg">Task Management {" > "}Home</h1>
-          </header>
+          <Header location="Home" />
           <div className="w-5/6 mt-10 flex flex-col items-start">
             <h2 className="text-2xl">Add a new Task</h2>
             <input
@@ -35,13 +71,32 @@ const Home: NextPage = () => {
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}></textarea>
-            <button className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
-              + ADD
+            <button
+              disabled={creating}
+              onClick={createTask}
+              className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
+              {creating ? "Creating Task" : "+ ADD"}
             </button>
           </div>
           <main className="mt-10 bg-blue-600 text-white w-full h-full rounded-t-3xl flex flex-col items-center overflow-hidden">
             <h1 className="ml-10 mt-5 text-xl w-full">Tasks</h1>
-            <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll"></div>
+            {todos.length ? (
+              <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll">
+                {todos.length &&
+                  todos.map(({ title, description, badge, id }) => (
+                    <Todo
+                      key={id}
+                      title={title}
+                      description={description}
+                      badge={badge}
+                    />
+                  ))}
+              </div>
+            ) : (
+              <div className="w-1/2 h-full flex items-center justify-center text-center text-white text-2xl">
+                You have nothing to do. Go Get Some Sleep.
+              </div>
+            )}
           </main>
         </div>
       </div>
