@@ -17,7 +17,7 @@ const Todo = ({ title, id, description, badge }: todoProps) => {
         {description}
       </p>
       <div className="flex items-center justify-between">
-        <div className="px-6 py-2 mt-5 bg-blue-900 text-white rounded-xl">
+        <div className="px-6 py-2 mt-5 bg-blue-900 text-white rounded-xl text-xs">
           {badge}
         </div>
         <Link href={`/edit/${id}`}>
