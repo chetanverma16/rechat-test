@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { TODOType } from "../@types";
+import Todo from "../components/Todo";
 
 const Home: NextPage = () => {
   return (
@@ -10,55 +12,34 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-screen h-screen flex flex-col justify-center items-center p-4">
-        <h2 className="text-[3rem] lg:text-[5rem] md:text-[5rem] font-extrabold text-gray-700">
-          Create <span className="text-purple-300">T3</span> App
-        </h2>
-        <p className="text-2xl text-gray-700">This stack uses</p>
-        <div className="grid grid-cols-1 grid-rows-3 lg:grid-rows-1 md:grid-rows-1 lg:grid-cols-3 md:grid-cols-3 gap-3 mt-3 pt-3 w-full lg:w-2/3 md:w-full">
-          <div className="hover:scale-105 cursor-pointer duration-500 flex flex-col justify-center items-center text-center rounded shadow-xl border-2 border-gray-500 h-full w-full p-6">
-            <h2 className="text-lg text-gray-700">NextJS</h2>
-            <p className="text-sm text-gray-600">
-              The React framework for production
-            </p>
-            <a
-              className="text-sm text-violet-500 underline decoration-dotted underline-offset-2 cursor-pointer mt-3"
-              href="https://nextjs.org/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Documentation
-            </a>
+      <div className="w-screen h-screen flex flex-col justify-center items-center p-4 bg-gray-50">
+        <div className="bg-gray-50 w-full max-w-lg h-screen flex flex-col items-center">
+          <header className="h-16 w-full bg-blue-500 text-white flex items-center justify-center">
+            <h1 className="text-lg">Task Management {" > "}Home</h1>
+          </header>
+          <div className="w-5/6 mt-10 flex flex-col items-start">
+            <h2 className="text-2xl">Add a new Task</h2>
+            <input
+              type="text"
+              className="w-full mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
+              placeholder="Title"></input>
+            <textarea
+              className="w-full h-32 mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
+              placeholder="Description"></textarea>
+            <button className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
+              + ADD
+            </button>
           </div>
-          <div className="hover:scale-105 cursor-pointer duration-500 flex flex-col justify-center items-center text-center rounded shadow-xl border-2 border-gray-500 h-full w-full p-6">
-            <h2 className="text-lg text-gray-700">TypeScript</h2>
-            <p className="text-sm text-gray-600">
-              Strongly typed programming language that builds on JavaScript,
-              giving you better tooling at any scale
-            </p>
-            <a
-              className="text-sm text-violet-500 underline decoration-dotted underline-offset-2 cursor-pointer mt-3"
-              href="https://www.typescriptlang.org/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Documentation
-            </a>
-          </div>
-          <div className="hover:scale-105 cursor-pointer duration-500 flex flex-col justify-center items-center text-center rounded shadow-xl border-2 border-gray-500 h-full w-full p-6">
-            <h2 className="text-lg text-gray-700">TailwindCSS</h2>
-            <p className="text-sm text-gray-600">
-              Rapidly build modern websites without ever leaving your HTML
-            </p>
-            <a
-              className="text-sm text-violet-500 underline decoration-dotted underline-offset-2 cursor-pointer mt-3"
-              href="https://tailwindcss.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Documentation
-            </a>
-          </div>
+          <main className="mt-10 bg-blue-600 text-white w-full h-full rounded-t-3xl flex flex-col items-center overflow-hidden">
+            <h1 className="ml-10 mt-5 text-xl w-full">Tasks</h1>
+            <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll">
+              <Todo
+                title="Task Title Goes Here"
+                description="Task Description Goes Here If text size is more than a paragraph it is trimmed"
+                badge={TODOType["TODO"]}
+              />
+            </div>
+          </main>
         </div>
       </div>
     </>
