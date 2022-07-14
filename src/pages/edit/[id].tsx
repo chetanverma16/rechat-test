@@ -32,8 +32,35 @@ const Edit = () => {
       });
   };
 
+  const edit = () => {
+    if (id) {
+      fetch("/api/todos/todo", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: parseInt(id as string),
+          title: title,
+          description: description,
+          badge: badge,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
   useEffect(() => {
-    getEditValues(id);
+    if (id) {
+      getEditValues(id);
+    }
   }, []);
 
   const generateOptions = (badge: String) => {
@@ -109,7 +136,9 @@ const Edit = () => {
           </select>
         </div>
         <div className="w-full flex items-center my-10">
-          <button className="w-full h-12 m-2 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
+          <button
+            onClick={edit}
+            className="w-full h-12 m-2 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
             Done
           </button>
           <Link href="/">
