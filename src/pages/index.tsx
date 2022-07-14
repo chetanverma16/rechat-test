@@ -3,7 +3,12 @@ import Head from "next/head";
 import { TODOType } from "../@types";
 import Todo from "../components/Todo";
 
+import { useState } from "react";
+
 const Home: NextPage = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   return (
     <>
       <Head>
@@ -22,23 +27,21 @@ const Home: NextPage = () => {
             <input
               type="text"
               className="w-full mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
-              placeholder="Title"></input>
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}></input>
             <textarea
               className="w-full h-32 mt-5 p-4 border-b border-b-slate-600 bg-slate-200"
-              placeholder="Description"></textarea>
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}></textarea>
             <button className="w-full h-12 rounded-md shadow-md bg-blue-700 text-white font-bold mt-5 transition-all duration-300 ease-out hover:bg-blue-800">
               + ADD
             </button>
           </div>
           <main className="mt-10 bg-blue-600 text-white w-full h-full rounded-t-3xl flex flex-col items-center overflow-hidden">
             <h1 className="ml-10 mt-5 text-xl w-full">Tasks</h1>
-            <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll">
-              <Todo
-                title="Task Title Goes Here"
-                description="Task Description Goes Here If text size is more than a paragraph it is trimmed"
-                badge={TODOType["TODO"]}
-              />
-            </div>
+            <div className="w-11/12 bg-blue-300 h-full mt-2 p-4 rounded-t-3xl grid grid-cols-2 overflow-y-scroll"></div>
           </main>
         </div>
       </div>

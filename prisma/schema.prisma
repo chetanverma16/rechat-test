@@ -10,3 +10,10 @@ datasource db {
     url      = "file:./db.sqlite"
     // url      = env("DATABASE_URL")
 }
+
+model Todo {
+    id          Int    @id @default(autoincrement())
+    title       String
+    description String
+    badge       String
+}
